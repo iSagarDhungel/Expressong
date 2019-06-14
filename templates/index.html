@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Playing Song</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"-->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header clearfix">
+        <h3 class="text-muted">Expressong</h3>
+    </div>
+
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class = "col-md-6">
+                <h3 class="jumbotronHeading">How are your feeling today!</h3>
+                <hr/>
+                <script src="../static/webcam.min.js"></script>
+
+                <div style="position:absolute;margin-top:40px;margin-left: 100px;width: 120px; height: 160px; border-width: thick; border: 2px solid red;">
+
+                </div>
+                <div id="my_camera" style="width:320px; height:240px;"></div>
+                    <img id="my_result"></img> <!--showing the captured image-->
+                    <script language="JavaScript">
+                        Webcam.attach( '#my_camera' );
+                        function take_snapshot() {
+                            Webcam.snap( function(data_uri) {
+                                document.getElementById('my_result').src = data_uri;
+                            } );
+                        }
+                    </script>
+                    <script type="text/javascript">
+                        function analyze(){
+                            img_data = document.getElementById('my_result').src;
+                            var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+                            console.log(img_data);
+                            $.ajax({
+                                data: img_data,
+                                type: 'POST',
+                                url : $SCRIPT_ROOT + '/predict/'
+
+                                // success: function(response){ 
+                                //       $('#result_text').text(response) 
+                                //   }
+                            })
+                        }
+                    </script>
+                    <hr/>
+                    <a class="btn btn-success" onclick="javascript:take_snapshot()">Take Snapshot</a>
+                    <a class="btn btn-success" onclick="javascript:analyze()">Analyze</a>
+                </div>
+            </div>
+
+            <div class = "col-md-6">
+                <p id="result_text">You are very sad today</p>
+            </div>
+        </div>
+    </div> 
+</div> 
+</body>
+</html>
