@@ -60,11 +60,13 @@ def predict():
     with graph.as_default():
 
         out = model.predict(x) #returns in one hot encoding
-        print("(0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral)")
+        map_num_exp = { 0:"Angry", 1: "Disgust", 2: "Fear", 3: "Happy", 4: "Sad", 5: "Surprise", 6: "Neutral"}
         print(out)
         response = np.argmax(out, axis=1) #return [number] from one hot encoding
-        print(response)
-        return str(np.asscalar(response))
+        reponse_int = np.asscalar(response)
+
+        print(map_num_exp[reponse_int])
+        return map_num_exp[reponse_int]
 
 
 if __name__ == "__main__":
