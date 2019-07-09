@@ -5,7 +5,3 @@ Play music based on facial expression of the user.
 ## Screenshot
 ![Sagar Dhungel](Expressong.png)
 
-
-## Issues
-- Cant distinguish properly between Neutral, Disgust and Fear
-- Cant distinguish properly between Happy and Surprised
